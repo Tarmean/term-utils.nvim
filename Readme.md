@@ -7,6 +7,13 @@ Collection of utilities for neovim terminal mode. They solve a number of unrelat
 - Automatically run a terminal command on save, e.g. reload a repl or re-run a
   test/script
 
+
+#### Installation
+
+with plug.vim:
+
+    Plug 'Tarmean/term-utils.nvim'
+
 #### Managing multiple terminals
 
 The core is the 'Term' command, syntax
@@ -21,9 +28,9 @@ The previously used label is remembered, and you should map a key to toggle betw
 
 For these mappings you should use a key that you never use, even in terminal mode. If your keyboard has umlauts they would be good candidates. Example configuration:
 
-    nnoremap ~ :call termutils#term_toggle('insert', termutils#guess_term_tag())<cr>
-    tnoremap ~ <C-\><C-n>:call termutils#goto_old_win(v:false)<cr>
-    noremap ` :call termutils#term_toggle('normal', termutils#guess_term_tag( ))<cr>
+    nnoremap ~ :call term_utils#term_toggle('insert', term_utils#guess_term_tag())<cr>
+    tnoremap ~ <C-\><C-n>:call term_utils#goto_old_win(v:false)<cr>
+    noremap ` :call term_utils#term_toggle('normal', term_utils#guess_term_tag( ))<cr>
     tnoremap ` <C-\><C-n>
 
     cnoremap term Term

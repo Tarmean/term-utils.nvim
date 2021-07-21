@@ -23,7 +23,7 @@ function! s:set_tag_for_buf(bang, tag)
     let g:open_terms[a:tag] = l:buf_nr
 endfunc
 
-function! termutils#guess_term_tag()
+function! term_utils#guess_term_tag()
     if s:get_term_for(g:current_tag)
         return g:current_tag
     endif
@@ -51,7 +51,7 @@ function! Autoreload(disabled, command)
 endfunc
 function! s:Reload(arg)
      let l:arg = a:arg == "" ? ":r" : a:arg
-    call feedkeys(":call termutils#term_toggle('insert', 'repl')\<cr>" . l:arg . "\<cr>\<C-\>\<C-n>:call termutils#goto_old_win(v:false)\<cr>", 'n')
+    call feedkeys(":call term_utils#term_toggle('insert', 'repl')\<cr>" . l:arg . "\<cr>\<C-\>\<C-n>:call term_utils#goto_old_win(v:false)\<cr>", 'n')
 endfunc
 
 command! -bang -nargs=? RTerm call s:root_term("<bang>", <q-args>)
@@ -110,7 +110,7 @@ func! s:open_term(bang, args, tag)
     exec "cd " . l:oldcd
     call s:set_term_for(a:tag, bufnr("%"))
 endfunction
-func! termutils#goto_old_win(close_cur)
+func! term_utils#goto_old_win(close_cur)
     let [tab, win] = win_id2tabwin(g:old_win)
     let close = a:close_cur && (tabpagenr() == l:tab)
     if close
@@ -141,11 +141,11 @@ func! s:jump_to_buf(buf)
             exec "b ". a:buf
         endif
 endfunc
-func! termutils#term_toggle(arg, tag)
+func! term_utils#term_toggle(arg, tag)
     let cur = s:get_term_for(a:tag)
     if cur != v:false
         if(l:cur == bufnr("%"))
-            call termutils#goto_old_win(v:false)
+            call term_utils#goto_old_win(v:false)
             return
         endif
         call s:jump_to_buf(l:cur)
