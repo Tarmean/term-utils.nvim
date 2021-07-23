@@ -28,8 +28,8 @@ COMMANDS                                                *term-utils-commands*
       Term label command
   
   When a new terminal is creates, `command` is the initial command executed.
-  The label autocompletes. Close a terminal by deleting the buffer. Without arguments, the default label is `temp`.
-  With `Term!`, the terminal is opened in the directory of the current file
+  The label autocompletes. Close a terminal by deleting the buffer. Without arguments, the default label is `temp`. The terminal is `cd`'d to the active file.
+  With `Term!`, the terminal is opened in the current directory
 
 *:RTerm*
 

@@ -23,6 +23,8 @@ Open a labeled terminal with
 The label autocompletes. If there is a terminal with with this label, display
 it. Otherwise open a new terminal using 'command' as initial command.
 
+`:Term` opens the terminal in the directory of the current file, use `:Term!` to avoid this behaviour.
+
 #### Quick swapping:
 
 The previously used label is remembered, and you should map a key to toggle between the current window and this terminal. This switches to a window with the active terminal, even if it is in another tab, or opens a new window if the terminal is currently closed. When used in the active terminal, it switches back to the previous windows
@@ -50,7 +52,7 @@ This is currently fairly aggressive when reusing terminals and prefers to switch
 
 #### Misc
 
-`:Term!` works like term, but cd's to the directory of the current file.
+`:Term!` works like term, but doesn't cd to the current file.
 
 `:RTerm` works like `:Term`, but uses fugitive to run in the current git project root. Example:
 
