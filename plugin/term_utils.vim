@@ -5,7 +5,6 @@ endif
 
 
 
-
 command! -bang -nargs=1 TermTag call s:set_tag_for_buf("<bang>", <q-args>)
 function! s:set_tag_for_buf(bang, tag)
     if &buftype != "terminal"
@@ -51,7 +50,7 @@ function! Autoreload(disabled, command)
 endfunc
 function! s:Reload(arg)
      let l:arg = a:arg == "" ? ":r" : a:arg
-    call feedkeys(":call term_utils#term_toggle('insert', 'repl')\<cr>" . l:arg . "\<cr>\<C-\>\<C-n>:call term_utils#goto_old_win(v:false)\<cr>", 'n')
+    call feedkeys(":call term_utils#term_toggle('insert', 'repl', v:false)\<cr>" . l:arg . "\<cr>\<C-\>\<C-n>:call term_utils#goto_old_win(v:false)\<cr>", 'n')
 endfunc
 
 command! -bang -nargs=? RTerm call s:root_term("<bang>", <q-args>)
@@ -71,12 +70,10 @@ function s:open_term_tags(a, b, c)
     return keys(g:open_terms)
 endfunc
 func! s:open_term_with_tag(bang, argss)
-    if len(a:argss) == 0
-        let a:argss = "temp"
-    endif
-    let exploded = split(a:argss, " ")
+    let argss = a:argss == "" ? "temp" : a:argss
+    let exploded = split(l:argss, " ")
     let first = l:exploded[0]
-    let rest = a:argss[len(l:first):]
+    let rest = l:argss[len(l:first):]
     call s:open_term(a:bang, l:rest, l:first)
 endfunc
 func! s:switch_to(tag)
@@ -141,11 +138,11 @@ func! s:jump_to_buf(buf)
             exec "b ". a:buf
         endif
 endfunc
-func! term_utils#term_toggle(arg, tag)
+func! term_utils#term_toggle(arg, tag, close)
     let cur = s:get_term_for(a:tag)
     if cur != v:false
         if(l:cur == bufnr("%"))
-            call term_utils#goto_old_win(v:false)
+            call term_utils#goto_old_win(a:close)
             return
         endif
         call s:jump_to_buf(l:cur)

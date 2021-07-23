@@ -1,0 +1,108 @@
+*term_utils.txt* Manage neovim Terminals
+
+License: MIT
+URL: https://github.com/Tarmean/term-utils.nvim
+
+==============================================================================
+CONTENTS                                                    *term-utils-contents*
+
+    1. INSTALLATION ............................. |term-utils-installation|
+    2. COMMANDS ..................................... |term-utils-features|
+    4. SHORTCUTS ................................... |term-utils-mappings|
+    4. EXAMPLE ................................... |term-utils-example|
+
+==============================================================================
+1. INTRODUCTION                                         *term-utils-installation*
+
+If you are using `vim-plug`: >
+
+    Plug 'Tarmean/term-utils.nvim'
+
+==============================================================================
+COMMANDS                                                *term-utils-commands*
+
+*:Term*
+
+  Open a labeled terminal. Uses the existing terminal with this tab if any exists, or opens a new one.
+  
+      Term label command
+  
+  When a new terminal is creates, `command` is the initial command executed.
+  The label autocompletes. Close a terminal by deleting the buffer. Without arguments, the default label is `temp`.
+  With `Term!`, the terminal is opened in the directory of the current file
+
+*:RTerm*
+
+  Like |:Term|, but open the terminal in the (git) project root.
+
+*:Autoreload*
+
+  Execute a command in the `repl` whenever the current file is saved. 
+    `:Autoreload python program.py`
+  If you need more control, e.g. having seperate autoreload terminals for
+  different, please open an issue.
+
+*:Autoreload!*
+
+    disables autoreloading for the current file again.
+
+*:TermTag* 
+  replaces the tag for an existing terminal
+
+*:TermTag!* 
+  *add* a tag if you want multiple tags for the same terminal, e.g.
+`repl` for autoreloading and `ghci`
+
+==============================================================================
+MAPPINGS                                                  term-utils-mappings
+
+The previously used label is remembered, and you should map a key to toggle between the current window and this terminal. This switches to a window with the active terminal, even if it is in another tab, or opens a new window if the terminal is currently closed. When used in the active terminal, it switches back to the previous windows
+
+For these mappings you should use a key that you never use, even in terminal mode. If your keyboard has umlauts they would be good candidates. Example configuration:
+
+    nnoremap ~ :call term_utils#term_toggle('insert', term_utils#guess_term_tag(), v:false)<cr>
+    tnoremap ~ <C-\><C-n>:call term_utils#goto_old_win(v:false)<cr>
+    noremap ` :call term_utils#term_toggle('normal', term_utils#guess_term_tag(), v:false)<cr>
+    tnoremap ` <C-\><C-n>
+
+    cnoremap term Term
+
+
+A 'normal' mapping enters the terminal in normal mode instead of insert mode to enable easy copy-pasting. The `v:false` arguments can be replaced by something truthy to hide the terminal buffer when jumping back to the previous window.
+
+==============================================================================
+FUNCTIONS                                                  term-utils-functions
+*term_utils#term_toggle()*
+
+  term_utils#term_toggle(mode, tag, on_exit)
+    Open the terminal with label `tag`, or jump to the previous window if the terminal is currently active.
+
+    *mode*: 'insert' if the terminal should be entered in insert mode, 'normal' otherwise
+    *tag*: tag of the intended terminal
+    *on_exit*: When we jump to the previous window, should the terminal window be hidden?
+
+*term_utils#goto_old_win()*
+
+  term_utils#goto_old_win(on_exit)
+    Return to the window from which we last jumped to a terminal
+
+    *on_exit*: Should the terminal window be hidden afterwards?
+
+*term_utils#guess_term_tag()*
+  term_utils#guess_term_tag()
+      Return the previoulsy used terminal tag, or 'temp' if no such tag exists
+      or this terminal has been closed since
+    
+==============================================================================
+EXAMPLE                                                  term-utils-example
+
+It can be useful to create mappings for specific tasks. For instance to open a
+php repl in the project root and load an initialization file:
+
+    command! PHPShell RTerm php php -a -d auto_prepend_file=bootstrap_application.php
+
+Running this command opens a new repl, or switches to the active repl when one
+exists.
+
+
+

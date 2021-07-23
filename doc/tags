@@ -1,0 +1,6 @@
+:Term	term_utils.txt	/*:Term*
+:RTerm	term_utils.txt	/*:RTerm*
+:Autoreload	term_utils.txt	/*:Autoreload*
+term_utils#term_toggle()	term_utils.txt	/*term_utils#term_toggle()*
+term_utils#goto_old_win()	term_utils.txt	/*term_utils#goto_old_win()*
+term_utils#guess_term_tag()	term_utils.txt	/*term_utils#guess_term_tag()*
