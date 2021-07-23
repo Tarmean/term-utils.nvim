@@ -20,7 +20,8 @@ Open a labeled terminal with
 
     :Term label command
 
-The label autocompletes. If there is a terminal with with this label, display it. Otherwise open a new terminal using 'command' as initial command.
+The label autocompletes. If there is a terminal with with this label, display
+it. Otherwise open a new terminal using 'command' as initial command.
 
 #### Quick swapping:
 
@@ -40,11 +41,12 @@ A 'normal' mapping enters the terminal in normal mode instead of insert mode to 
 
 This is currently fairly aggressive when reusing terminals and prefers to switch between tabs over opening new windows. If more configuration would be useful, please open an issue.
 
+
 #### Automatic commands on save
 
-The `:Autoreload python program.py` executes `python program.py` in the `repl` terminal when the current buffer is saved. 
+`:Autoreload python program.py` executes `python program.py` in the `repl` terminal when the current buffer is saved. 
 
-`Autoreload!` disables autoreloading again.
+`Autoreload!` disables autoreloading for the current buffer again.
 
 #### Misc
 
