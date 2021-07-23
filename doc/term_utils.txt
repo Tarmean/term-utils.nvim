@@ -74,19 +74,19 @@ A 'normal' mapping enters the terminal in normal mode instead of insert mode to 
 FUNCTIONS                                                  term-utils-functions
 *term_utils#term_toggle()*
 
-  term_utils#term_toggle(mode, tag, on_exit)
+  term_utils#term_toggle(mode, tag, hide_terminal)
     Open the terminal with label `tag`, or jump to the previous window if the terminal is currently active.
 
     *mode*: 'insert' if the terminal should be entered in insert mode, 'normal' otherwise
     *tag*: tag of the intended terminal
-    *on_exit*: When we jump to the previous window, should the terminal window be hidden?
+    *hide_terminal*: When 1, ensure the terminal is hidden when returning to the previous window. Allows quake-style terminal usage
 
 *term_utils#goto_old_win()*
 
-  term_utils#goto_old_win(on_exit)
+  term_utils#goto_old_win(hide_terminal)
     Return to the window from which we last jumped to a terminal
 
-    *on_exit*: Should the terminal window be hidden afterwards?
+    *hide_terminal*: When 1, ensure the terminal is hidden after returning
 
 *term_utils#guess_term_tag()*
   term_utils#guess_term_tag()
