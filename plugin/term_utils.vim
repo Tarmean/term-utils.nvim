@@ -51,16 +51,13 @@ endfunc
 function! s:Reload(arg)
      let l:arg = a:arg == "" ? ":r" : a:arg
     call feedkeys(":call term_utils#term_toggle('insert', 'repl', v:false)\<cr>" . l:arg . "\<cr>\<C-\>\<C-n>:call term_utils#goto_old_win(v:false)\<cr>", 'n')
-endfunc
+endfu nc
 
-command! -bang -nargs=? RTerm call s:root_term("<bang>", <q-args>)
-func! s:root_term(bang, arg)
-    vsplit
-    exec "InRoot Term! " . a:arg
-endfunc
+command! -nargs=? -complete=customlist,s:open_term_tags Term call s:open_term_with_tag('root', <q-args>)
 
+command! -nargs=? -complete=customlist,s:open_term_tags CTerm call s:open_term_with_tag('current', <q-args>)
 
-command! -bang -nargs=? -complete=customlist,s:open_term_tags Term call s:open_term_with_tag("<bang>", <q-args>)
+command! -nargs=? -complete=customlist,s:open_term_tags LTerm call s:open_term_with_tag('local', <q-args>)
 function s:open_term_tags(a, b, c)
     for k in keys(g:open_terms)
         if !bufexists(g:open_terms[l:k])
@@ -69,12 +66,12 @@ function s:open_term_tags(a, b, c)
     endfor
     return keys(g:open_terms)
 endfunc
-func! s:open_term_with_tag(bang, argss)
+func! s:open_term_with_tag(where, argss)
     let argss = a:argss == "" ? "temp" : a:argss
     let exploded = split(l:argss, " ")
     let first = l:exploded[0]
     let rest = l:argss[len(l:first):]
-    call s:open_term(a:bang, l:rest, l:first)
+    call s:open_term(a:where, l:rest, l:first)
 endfunc
 func! s:switch_to(tag)
     let target = s:get_term_for(a:tag)
@@ -85,7 +82,7 @@ func! s:switch_to(tag)
     endif
     return v:false
 endfunc
-func! s:open_term(bang, args, tag)
+func! s:open_term(where, args, tag)
     if s:switch_to(a:tag)
         norm i
         return
@@ -93,11 +90,14 @@ func! s:open_term(bang, args, tag)
     let g:old_win = win_getid()
     vsplit
     let l:oldcd = getcwd()
-    if a:bang == ""
-        exec "cd " . expand("%:p:h")
-    end
+    if a:where == 'root'
+        call s:in_root()
+    elseif a:where == 'local'
+        call s:in_local()
+    endif
+
     if (has('unix'))
-        exec "term zsh " 
+        exec "term" 
     else
         exec "term powershell"
     endif
@@ -106,7 +106,7 @@ func! s:open_term(bang, args, tag)
     endif
     exec "cd " . l:oldcd
     call s:set_term_for(a:tag, bufnr("%"))
-endfunction
+endfunc
 func! term_utils#goto_old_win(close_cur)
     let [tab, win] = win_id2tabwin(g:old_win)
     let close = a:close_cur && (tabpagenr() == l:tab)
@@ -138,7 +138,7 @@ func! s:jump_to_buf(buf)
             exec "b ". a:buf
         endif
 endfunc
-func! term_utils#term_toggle(arg, tag, close)
+func! term_utils#term_toggle(arg, tag, close, where="root")
     let cur = s:get_term_for(a:tag)
     if cur != v:false
         if(l:cur == bufnr("%"))
@@ -148,7 +148,7 @@ func! term_utils#term_toggle(arg, tag, close)
         call s:jump_to_buf(l:cur)
     else
         let g:old_win = win_getid()
-        call s:open_term("", 0, a:tag)
+        call s:open_term(a:where, 0, a:tag)
         call s:set_term_for(a:tag, bufnr("%"))
     endif
     if a:arg == 'insert' 
@@ -156,3 +156,16 @@ func! term_utils#term_toggle(arg, tag, close)
     endif
 endfunc
 
+" command! -nargs=* InRoot call s:in_root(<q-args>)
+function! s:in_root()
+  let old = getcwd()
+  let root = FugitiveExtractGitDir(expand('%:p'))
+  if root != ""
+      exec "lcd " . root . "/.."
+  endif
+  " exec a:e
+  " exec "cd " . l:old
+endfunc
+function! s:in_local(e)
+  exec "lcd " . expand('%:h')
+  endfunc

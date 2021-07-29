@@ -31,17 +31,17 @@ The previously used label is remembered, and you should map a key to toggle betw
 
 For these mappings you should use a key that you never use, even in terminal mode. If your keyboard has umlauts they would be good candidates. Example configuration:
 
-    nnoremap ~ :call term_utils#term_toggle('insert', term_utils#guess_term_tag(), v:false)<cr>
+    nnoremap ~ :call term_utils#term_toggle('insert', term_utils#guess_term_tag(), v:false, 'root')<cr>
     tnoremap ~ <C-\><C-n>:call term_utils#goto_old_win(v:false)<cr>
-    noremap ` :call term_utils#term_toggle('normal', term_utils#guess_term_tag(), v:false)<cr>
+    noremap ` :call term_utils#term_toggle('normal', term_utils#guess_term_tag(), v:false, 'root')<cr>
     tnoremap ` <C-\><C-n>
 
     cnoremap term Term
 
 
 A 'normal' mapping enters the terminal in normal mode instead of insert mode to enable easy copy-pasting. The `v:false` arguments can be replaced by something truthy to hide the terminal buffer when jumping back to the previous window.
+The last argument is 'root' to open the terminal in the project root, 'local' to open it in the directory of the current file, or 'pwd' to use the current working directory of vim. Default is 'root'.
 
-This is currently fairly aggressive when reusing terminals and prefers to switch between tabs over opening new windows. If more configuration would be useful, please open an issue.
 
 
 #### Automatic commands on save

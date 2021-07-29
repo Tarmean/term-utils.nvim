@@ -1,6 +1,14 @@
-:Term	term_utils.txt	/*:Term*
-:RTerm	term_utils.txt	/*:RTerm*
 :Autoreload	term_utils.txt	/*:Autoreload*
-term_utils#term_toggle()	term_utils.txt	/*term_utils#term_toggle()*
+:Autoreload!	term_utils.txt	/*:Autoreload!*
+:RTerm	term_utils.txt	/*:RTerm*
+:Term	term_utils.txt	/*:Term*
+:TermTag	term_utils.txt	/*:TermTag*
+:TermTag!	term_utils.txt	/*:TermTag!*
+add	term_utils.txt	/*add*
+term-utils-commands	term_utils.txt	/*term-utils-commands*
+term-utils-contents	term_utils.txt	/*term-utils-contents*
+term-utils-installation	term_utils.txt	/*term-utils-installation*
 term_utils#goto_old_win()	term_utils.txt	/*term_utils#goto_old_win()*
 term_utils#guess_term_tag()	term_utils.txt	/*term_utils#guess_term_tag()*
+term_utils#term_toggle()	term_utils.txt	/*term_utils#term_toggle()*
+term_utils.txt	term_utils.txt	/*term_utils.txt*
