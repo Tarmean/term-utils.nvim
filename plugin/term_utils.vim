@@ -1,7 +1,9 @@
-if !exists("g:open_terms")
-    let g:open_terms = {}
-    let g:current_tag = v:false
+if exists("g:open_terms")
+    finish
 endif
+
+let g:open_terms = {}
+let g:current_tag = v:false
 
 
 
@@ -39,7 +41,7 @@ function s:set_term_for(tag, buf)
     let g:current_tag = a:tag
     let g:open_terms[a:tag] = a:buf
 endfunc
-command! -nargs=? -bang Autoreload call Autoreload("<bang>", "<args>")
+command! -nargs=? -bang TermAutoreload call Autoreload("<bang>", "<args>")
 function! Autoreload(disabled, command)
     augroup AutoReloadTerm
         au!
@@ -55,9 +57,9 @@ endfu nc
 
 command! -nargs=? -complete=customlist,s:open_term_tags Term call s:open_term_with_tag('root', <q-args>)
 
-command! -nargs=? -complete=customlist,s:open_term_tags CTerm call s:open_term_with_tag('current', <q-args>)
+command! -nargs=? -complete=customlist,s:open_term_tags TermCWD call s:open_term_with_tag('current', <q-args>)
 
-command! -nargs=? -complete=customlist,s:open_term_tags LTerm call s:open_term_with_tag('local', <q-args>)
+command! -nargs=? -complete=customlist,s:open_term_tags TermLocal call s:open_term_with_tag('local', <q-args>)
 function s:open_term_tags(a, b, c)
     for k in keys(g:open_terms)
         if !bufexists(g:open_terms[l:k])
@@ -166,6 +168,6 @@ function! s:in_root()
   " exec a:e
   " exec "cd " . l:old
 endfunc
-function! s:in_local(e)
+function! s:in_local()
   exec "lcd " . expand('%:h')
   endfunc

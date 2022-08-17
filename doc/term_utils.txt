@@ -23,7 +23,7 @@ COMMANDS                                                *term-utils-commands*
 
 *:Term*
 
-  Open a labeled terminal. Uses the existing terminal with this tab if any exists, or opens a new one.
+  Open a labeled terminal in the project root directory. Uses the existing terminal with this tab if any exists, or opens a new one.
   
       Term label command
   
@@ -31,18 +31,22 @@ COMMANDS                                                *term-utils-commands*
   The label autocompletes. Close a terminal by deleting the buffer. Without arguments, the default label is `temp`. The terminal is `cd`'d to the active file.
   With `Term!`, the terminal is opened in the current directory
 
-*:RTerm*
+*:TermCWD*
 
-  Like |:Term|, but open the terminal in the (git) project root.
+  Like |:Term|, but open the terminal in vims current working directory root.
 
-*:Autoreload*
+*:TermLocal*
+
+  Like |:Term|, but open the terminal in the folder of the current file.
+
+*:TermAutoreload*
 
   Execute a command in the `repl` whenever the current file is saved. 
     `:Autoreload python program.py`
   If you need more control, e.g. having seperate autoreload terminals for
   different, please open an issue.
 
-*:Autoreload!*
+*:TermAutoreload!*
 
     disables autoreloading for the current file again.
 
@@ -99,7 +103,7 @@ EXAMPLE                                                  term-utils-example
 It can be useful to create mappings for specific tasks. For instance to open a
 php repl in the project root and load an initialization file:
 
-    command! PHPShell RTerm php php -a -d auto_prepend_file=bootstrap_application.php
+    command! PHPShell Term php php -a -d auto_prepend_file=bootstrap_application.php
 
 Running this command opens a new repl, or switches to the active repl when one
 exists.

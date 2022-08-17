@@ -23,7 +23,7 @@ Open a labeled terminal with
 The label autocompletes. If there is a terminal with with this label, display
 it. Otherwise open a new terminal using 'command' as initial command.
 
-`:Term` opens the terminal in the directory of the current file, use `:Term!` to avoid this behaviour.
+`:Term` opens the terminal in the root directory of the current file. Use `:TermCWD` to use vim's working directoray, and `TermLocal` to use the directory of the current file.
 
 #### Quick swapping:
 
@@ -46,9 +46,9 @@ The last argument is 'root' to open the terminal in the project root, 'local' to
 
 #### Automatic commands on save
 
-`:Autoreload python program.py` executes `python program.py` in the `repl` terminal when the current buffer is saved. 
+`:TermAutoreload python program.py` executes `python program.py` in the `repl` terminal when the current buffer is saved. 
 
-`Autoreload!` disables autoreloading for the current buffer again.
+`TermAutoreload!` disables autoreloading for the current buffer again.
 
 #### Misc
 
