@@ -1,6 +1,6 @@
-" if exists("g:open_terms")
-"     finish
-" endif
+if exists("g:open_terms")
+    finish
+endif
 
 let g:open_terms = {}
 let g:current_tag = v:false
@@ -99,9 +99,9 @@ func! s:open_term(where, args, tag)
 
     if has('nvim')
         vsplit
-        let prefix = ""
+        let prefix = "term"
     else
-        let prefix = "vert "
+        let prefix = "vert term ++close ++norestore ++kill=term"
     endif
     if (has('unix'))
         exec prefix."term" 
@@ -158,8 +158,8 @@ func! term_utils#term_toggle(arg, tag, close, where="root")
         call s:open_term(a:where, 0, a:tag)
         call s:set_term_for(a:tag, bufnr("%"))
     endif
-    if has('nvim') && a:arg == 'insert' 
-        norm! i 
+    if mode() == 'n' && a:arg == 'insert'
+        norm! i
     endif
 endfunc
 
