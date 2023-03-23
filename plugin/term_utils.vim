@@ -1,6 +1,6 @@
-if exists("g:open_terms")
-    finish
-endif
+" if exists("g:open_terms")
+"     finish
+" endif
 
 let g:open_terms = {}
 let g:current_tag = v:false
@@ -31,7 +31,7 @@ function! term_utils#guess_term_tag()
     return "temp"
 endfunc
 function s:get_term_for(tag)
-    if !exists("g:open_terms[a:tag]") || !bufexists(g:open_terms[a:tag])
+    if !exists("g:open_terms[a:tag]") || !buflisted(g:open_terms[a:tag])
         return v:false
     endif
     let g:current_tag = a:tag
@@ -90,7 +90,6 @@ func! s:open_term(where, args, tag)
         return
     endif
     let g:old_win = win_getid()
-    vsplit
     let l:oldcd = getcwd()
     if a:where == 'root'
         call s:in_root()
@@ -98,10 +97,16 @@ func! s:open_term(where, args, tag)
         call s:in_local()
     endif
 
-    if (has('unix'))
-        exec "term" 
+    if has('nvim')
+        vsplit
+        let prefix = ""
     else
-        exec "term powershell"
+        let prefix = "vert "
+    endif
+    if (has('unix'))
+        exec prefix."term" 
+    else
+        exec prefix."term powershell"
     endif
     if (type(a:args) == type("") && a:args != "")
         call feedkeys("i" . a:args . "Ö")
@@ -153,7 +158,7 @@ func! term_utils#term_toggle(arg, tag, close, where="root")
         call s:open_term(a:where, 0, a:tag)
         call s:set_term_for(a:tag, bufnr("%"))
     endif
-    if a:arg == 'insert' 
+    if has('nvim') && a:arg == 'insert' 
         norm! i 
     endif
 endfunc
@@ -170,4 +175,4 @@ function! s:in_root()
 endfunc
 function! s:in_local()
   exec "lcd " . expand('%:h')
-  endfunc
+endfunc
