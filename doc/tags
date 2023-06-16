@@ -1,7 +1,8 @@
-:Autoreload	term_utils.txt	/*:Autoreload*
-:Autoreload!	term_utils.txt	/*:Autoreload!*
-:RTerm	term_utils.txt	/*:RTerm*
 :Term	term_utils.txt	/*:Term*
+:TermAutoreload	term_utils.txt	/*:TermAutoreload*
+:TermAutoreload!	term_utils.txt	/*:TermAutoreload!*
+:TermCWD	term_utils.txt	/*:TermCWD*
+:TermLocal	term_utils.txt	/*:TermLocal*
 :TermTag	term_utils.txt	/*:TermTag*
 :TermTag!	term_utils.txt	/*:TermTag!*
 add	term_utils.txt	/*add*

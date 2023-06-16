@@ -104,9 +104,9 @@ func! s:open_term(where, args, tag)
         let prefix = "vert term ++close ++norestore ++kill=term"
     endif
     if (has('unix'))
-        exec prefix."term" 
+        exec prefix
     else
-        exec prefix."term powershell"
+        exec prefix." powershell"
     endif
     if (type(a:args) == type("") && a:args != "")
         call feedkeys("i" . a:args . "Ö")
